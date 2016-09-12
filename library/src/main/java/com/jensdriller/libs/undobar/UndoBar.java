@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,7 +50,7 @@ public class UndoBar {
 
         private final int mLayoutResId;
 
-        private Style(int layoutResId) {
+        Style(int layoutResId) {
             mLayoutResId = layoutResId;
         }
 
@@ -67,12 +66,12 @@ public class UndoBar {
         /**
          * Will be fired when the undo bar disappears without being actioned.
          */
-        void onHide(Parcelable token);
+        void onHide(Object token);
 
         /**
          * Will be fired when the undo button is pressed.
          */
-        void onUndo(Parcelable token);
+        void onUndo(Object token);
     }
 
     /**
@@ -107,7 +106,7 @@ public class UndoBar {
     };
 
     protected Listener mUndoListener;
-    protected Parcelable mUndoToken;
+    protected Object mUndoToken;
     protected CharSequence mUndoMessage;
     protected int mDuration = DEFAULT_DURATION;
     protected int mAnimationDuration = DEFAULT_ANIMATION_DURATION;
@@ -208,10 +207,10 @@ public class UndoBar {
     }
 
     /**
-     * Sets a {@link Parcelable} token to the undo bar which will be returned in
+     * Sets a {@link Object} token to the undo bar which will be returned in
      * the {@link Listener UndoBar.Listener}.
      */
-    public void setUndoToken(Parcelable undoToken) {
+    public void setUndoToken(Object undoToken) {
         mUndoToken = undoToken;
     }
 
@@ -393,7 +392,7 @@ public class UndoBar {
      */
     protected void onHide() {
         // hide(true) will set mUndoToken to null, so we grab a reference and pass it to safelyNotifyOnHide()
-        Parcelable token = mUndoToken;
+        Object token = mUndoToken;
         hide(true);
         safelyNotifyOnHide(token);
         mUndoListener = null;
@@ -405,7 +404,7 @@ public class UndoBar {
      */
     protected void onUndo() {
         // hide(true) will set mUndoToken to null, so we grab a reference and pass it to safelyNotifyOnHide()
-        Parcelable token = mUndoToken;
+        Object token = mUndoToken;
         hide(true);
         safelyNotifyOnUndo(token);
     }
@@ -413,7 +412,7 @@ public class UndoBar {
     /**
      * Notifies listener if available.
      */
-    protected void safelyNotifyOnHide(Parcelable token) {
+    protected void safelyNotifyOnHide(Object token) {
         if (mUndoListener != null) {
             mUndoListener.onHide(token);
         }
@@ -422,7 +421,7 @@ public class UndoBar {
     /**
      * Notifies listener if available.
      */
-    protected void safelyNotifyOnUndo(Parcelable token) {
+    protected void safelyNotifyOnUndo(Object token) {
         if (mUndoListener != null) {
             mUndoListener.onUndo(token);
         }
@@ -462,7 +461,7 @@ public class UndoBar {
 
         private CharSequence mUndoMessage;
         private Listener mUndoListener;
-        private Parcelable mUndoToken;
+        private Object mUndoToken;
         private int mDuration = DEFAULT_DURATION;
         private int mAnimationDuration = DEFAULT_ANIMATION_DURATION;
         private boolean mUseEnglishLocale;
@@ -519,10 +518,10 @@ public class UndoBar {
         }
 
         /**
-         * Sets a {@link Parcelable} token to the undo bar which will be
+         * Sets a {@link Object} token to the undo bar which will be
          * returned in the {@link Listener UndoBar.Listener}.
          */
-        public Builder setUndoToken(Parcelable undoToken) {
+        public Builder setUndoToken(Object undoToken) {
             mUndoToken = undoToken;
             return this;
         }
